@@ -7,11 +7,29 @@
               <div class="main-content admin">
                   @if ($post)
                    <h2>Edit Post: {{ $post->_id }}</h2>
+                  @if ($errors->any())
+                  <div class="alert alert-danger">
+                      <ul>
+                          @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                          @endforeach
+                      </ul>
+                  </div><br />
+                  @endif
+                  @if (\Session::has('success'))
+                  <div class="alert alert-success">
+                      <p>{{ \Session::get('success') }}</p>
+                  </div><br />
+                  @endif
+
+
                   @if ($post->_id == "new")
                     <form method="post" action="{{action('PostController@store')}}">
                   @else
                     <form method="post" action="{{action('PostController@update', $post->_id )}}">
-                   @endif{{csrf_field()}}
+                      {{method_field('PUT')}}
+                   @endif
+                      {{csrf_field()}}
                     <div class="row">
                       <div class="col-md-2"></div>
                       <div class="form-group col-md-8">
@@ -23,7 +41,7 @@
                       <div class="col-md-2"></div>
                       <div class="form-group col-md-8">
                         <label for="price">Image:</label>
-                        <input type="text" class="form-control" name="title" value="{{isset($post->bannerPath)? $post->bannerPath : ""}}">
+                        <input type="text" class="form-control" name="bannerPath" value="{{isset($post->bannerPath)? $post->bannerPath : ""}}">
                       </div>
                     </div>
                     <div class="row">

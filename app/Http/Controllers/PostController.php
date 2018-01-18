@@ -25,6 +25,7 @@ class PostController extends Controller
     {
         $post =  new \stdClass();
         $post->_id = "new";
+        $post->bannerPath = "/uploads/lone-runner-bridge.jpg";
         return view('admin-post', ['post' =>$post]);
     }
     /**
@@ -37,15 +38,15 @@ class PostController extends Controller
     {
         $collection = Mongo::get()->blog->posts;
         $index = count($collection->find()->toArray());//dumb, we should perhaps use MongoID
-        $post = $this->validate(request(), [
-          'title' => 'required',
-          'content' => 'required'
+        $index++;
+         $post = $request->validate([
+            'title' => 'required|max:255',
+            'bannerPath' => 'max:255',
+            'content' => 'required',
         ]);
-
-        var_dump($post);
-        exit;
-
-        //return back()->with('success', 'Product has been added');
+        $post['_id'] = strval($index);
+        $collection->insertOne($post);
+        return redirect('posts')->with('success', 'A new post has been added');
     }
     /**
      * Display the specified resource.
@@ -79,15 +80,21 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        $this->validate(request(), [
-          'name' => 'required',
-          'price' => 'required|numeric'
+         $collection = Mongo::get()->blog->posts;
+         $post =  $collection->findOne(['_id'=> $id]);
+
+         $newPost = $request->validate([
+            'title' => 'required|max:255',
+            'bannerPath' => 'max:255',
+            'content' => 'required',
         ]);
-        $product->name = $request->get('name');
-        $product->price = $request->get('price');
-        $product->save();
-        return redirect('products')->with('success','Product has been updated');
+
+        $post['title'] =  $newPost['title'];//TODO - has to be a better way, updateOne uses update operators
+        $post['bannerPath'] =  $newPost['bannerPath'];
+        $post['content'] =  $newPost['content'];
+
+        $collection->replaceOne(['_id'=> $id],$post);
+        return redirect('posts')->with('success','Posting has been updated');
     }
     /**
      * Remove the specified resource from storage.
