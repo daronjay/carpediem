@@ -19,7 +19,11 @@
                         {{str_limit(strip_tags($post->content), 100)}}
                         </div>
                       </div>
-                      <button type="submit" class="btn delete">X</button>
+                        <form method="post" action="{{action('PostController@destroy', $post->_id )}}"> {{method_field('DELETE')}} {{csrf_field()}}
+                          <button type="submit" class="btn delete" onclick="return confirm('Are you sure?')"  >X</button>
+                      </form>
+
+
                     </div>
                 @endforeach
               </div>

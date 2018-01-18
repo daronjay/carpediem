@@ -35,12 +35,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $product = $this->validate(request(), [
-          'name' => 'required',
-          'price' => 'required|numeric'
+        $collection = Mongo::get()->blog->posts;
+        $index = count($collection->find()->toArray());//dumb, we should perhaps use MongoID
+        $post = $this->validate(request(), [
+          'title' => 'required',
+          'content' => 'required'
         ]);
-        Product::create($product);
-        return back()->with('success', 'Product has been added');
+
+        var_dump($post);
+        exit;
+
+        //return back()->with('success', 'Product has been added');
     }
     /**
      * Display the specified resource.
@@ -93,8 +98,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $collection = Mongo::get()->blog->posts;
-        $post = $collection->findOne(['_id'=> $id]);
-        $product->delete();
-        return redirect('posts')->with('success','Post has been deleted');
+        $collection->deleteOne(['_id'=> $id]);
+        return back()->with('success', 'Post has been deleted');
     }
 }
