@@ -40,8 +40,10 @@
 
           <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <div class="nav-heading">
+              <a href="/">
                   <h1>Carpe<strong>Diem</strong></h1>
                   <p>Your daily inspirational message</p>
+              </a>
             </div>
 
             <!-- Right Side Of Navbar -->
