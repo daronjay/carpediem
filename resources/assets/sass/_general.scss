@@ -1,0 +1,68 @@
+.navbar {
+    margin-bottom: 30px;
+
+  .nav-heading{
+    width:50%;
+    float: left;
+    margin-bottom: 20px;
+    h1{
+      margin-bottom: 3px;
+      letter-spacing: 1px;
+      color:$brand-secondary;
+      strong{
+        color:$brand-primary;
+      }
+    }
+    p{
+      color:$brand-secondary;
+      font-size: 18px;
+      font-weight: 200;
+      letter-spacing: 2px;
+    }
+  }
+}
+
+
+.banner-image{
+  margin-top: -30px;
+  height:450px;
+  position:relative;
+  background-position: top;
+  background-size:cover;
+  margin-bottom:40px;
+
+  h2{
+    margin-top:0;
+    font-size:60px;
+    font-weight: 600;
+    text-shadow: 3px 3px 40px rgba(0,0,0,0.3);
+    color:$banner-color;
+    position: absolute;
+    top:40px;
+    left:40px;
+    width:40%;
+  }
+}
+
+
+.visible-xxs {
+  display: none !important;
+  visibility: hidden;
+}
+
+.hidden-xxs {
+  display: block;
+  visibility: visible;
+}
+
+@media screen and (max-width: 479px) {
+  .visible-xxs {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .hidden-xxs {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}

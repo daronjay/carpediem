@@ -17,17 +17,27 @@ Auth::routes();
 Route::get('posts', function(Request $request) {
     $collection = Mongo::get()->blog->posts;
     $posts =  $collection->find()->toArray();
-    return view('home', ['posts' =>$posts]);
+    return view('posts', ['posts' =>$posts]);
 
 });
 
 Route::get('posts/{id}', function(Request $request, $id) {
     $collection = Mongo::get()->blog->posts;
-    return $collection->findOne(['_id'=> $id]);
+    $post =  $collection->findOne(['_id'=> $id]);
+    $post->bannerPath = "/uploads/lone-runner-bridge.jpg";
+    return view('post', ['post' =>$post]);
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    $collection = Mongo::get()->blog->posts;
+    $posts =  $collection->find()->toArray();
+    return view('posts', ['posts' =>$posts]);
 });
 
+
+Route::get('admin', function () {
+    $collection = Mongo::get()->blog->posts;
+    $posts =  $collection->find()->toArray();
+    return view('admin-posts', ['posts' =>$posts]);
+})->middleware('auth');;
 

@@ -6,7 +6,9 @@
           <div class="col-md-12 ">
               <div class="main-content">
                   @foreach ($posts as $post)
-                    <h3>{{ $post->title }}</h3>
+                    <h3>
+                      <a href="{{url('posts', [$post->_id])}}">{{ $post->title }}</a>
+                    </h3>
                     <div className="content">
                       {!! $post->content !!}
                     </div>
